@@ -1,20 +1,22 @@
-const loadPhone = (searchText) => {
+const loadPhone = (searchText, dataLimit) => {
   const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => displayPhone(data.data));
+    .then((data) => displayPhone(data.data, dataLimit));
 };
 
-const displayPhone = (phones) => {
+const displayPhone = (phones, dataLimit) => {
   const displayPhone = document.getElementById("phone-container");
 
   displayPhone.textContent = " "; //! textcontent or innertext
 
   // show all btn
   const showAll = document.getElementById("show-all");
-  if (phones.length > 10) {
-    phones = phones.slice(0, 10);
+  if (dataLimit && phones.length > 12) {
+    phones = phones.slice(0, 12);
     showAll.classList.remove("d-none");
+  } else {
+    showAll.classList.add("d-none");
   }
   // phones = phones.slice(0, 20); // ? aita dita joto gulo phone show korabo oita likhte hbe
 
@@ -46,13 +48,25 @@ const displayPhone = (phones) => {
   //   console.log(phones);
 };
 
+// common function
+const prosessSearch = (dataLimit) => {
+  toggleLoader(true);
+  const searchText = document.getElementById("src-input").value;
+  loadPhone(searchText, dataLimit);
+};
+
+//  src btn
 document
   .getElementById("button-src")
   .addEventListener("click", function name(params) {
-    toggleLoader(true);
-    const srcInput = document.getElementById("src-input").value;
-    loadPhone(srcInput);
-    // console.log(srcInput);
+    prosessSearch(10);
+  });
+
+// ? showAll btn
+document
+  .getElementById("btn-showAll")
+  .addEventListener("click", function name(params) {
+    prosessSearch();
   });
 
 // loader
