@@ -38,6 +38,7 @@ const displayPhone = (phones, dataLimit) => {
       <p class="card-text">
        ${phone.brand}
       </p>
+      <button onclick="phoneDetailsDisplay('${phone.slug}')"  href="#" class="btn btn-primary">Details</button>
     </div>
   </div>
      `;
@@ -62,6 +63,14 @@ document
     prosessSearch(10);
   });
 
+document
+  .getElementById("src-input")
+  .addEventListener("keypress", function nam(e) {
+    // console.log(e.key);
+    if (e.key === "Enter") {
+      prosessSearch(10);
+    }
+  });
 // ? showAll btn
 document
   .getElementById("btn-showAll")
@@ -78,4 +87,12 @@ const toggleLoader = (isLoading) => {
     loader.classList.add("d-none");
   }
 };
-// loadPhone("");
+
+// id funtion
+const phoneDetailsDisplay = async (id) => {
+  const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  console.log(data.data);
+};
+loadPhone("oppo");
