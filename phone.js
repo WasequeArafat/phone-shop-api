@@ -38,7 +38,10 @@ const displayPhone = (phones, dataLimit) => {
       <p class="card-text">
        ${phone.brand}
       </p>
-      <button onclick="phoneDetailsDisplay('${phone.slug}')"  href="#" class="btn btn-primary">Details</button>
+      <button onclick="phoneDetailsDisplay('${phone.slug}')"  href="#" class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#detailsModal">Details</button>
+     
     </div>
   </div>
      `;
@@ -94,6 +97,19 @@ const phoneDetailsDisplay = async (id) => {
   const url = `https://openapi.programming-hero.com/api/phone/${id}`;
   const res = await fetch(url);
   const data = await res.json();
-  console.log(data.data);
+  displayPhoneDetails(data.data);
 };
-loadPhone("oppo");
+
+const displayPhoneDetails = (phone) => {
+  const displayPhone = document.getElementById("detailsModalLabel");
+  displayPhone.innerText = phone.name;
+  document.getElementById("modal-body").innerHTML = `
+   <img class="img-fluid" src="${phone.image}">
+   <p class="card-text mt-5"><small class="text-body-secondary mt-5">${
+     phone.releaseDate ? phone.releaseDate : "Comming Soon"
+   }</small></p>
+   </div>
+   `;
+  console.log(phone);
+};
+loadPhone("a");
