@@ -9,7 +9,14 @@ const displayPhone = (phones) => {
   const displayPhone = document.getElementById("phone-container");
 
   displayPhone.textContent = " "; //! textcontent or innertext
-  phones = phones.slice(0, 20); // ` aita dita joto gulo phone show korabo oita likhte hbe
+
+  // show all btn
+  const showAll = document.getElementById("show-all");
+  if (phones.length > 10) {
+    phones = phones.slice(0, 10);
+    showAll.classList.remove("d-none");
+  }
+  // phones = phones.slice(0, 20); // ? aita dita joto gulo phone show korabo oita likhte hbe
 
   // ! no phone found
   const noPhone = document.getElementById("no-phone");
@@ -35,14 +42,26 @@ const displayPhone = (phones) => {
     displayPhone.appendChild(creatDiv);
     // console.log(phone);
   });
+  toggleLoader(false);
   //   console.log(phones);
 };
 
 document
   .getElementById("button-src")
   .addEventListener("click", function name(params) {
+    toggleLoader(true);
     const srcInput = document.getElementById("src-input").value;
     loadPhone(srcInput);
     // console.log(srcInput);
   });
+
+// loader
+const toggleLoader = (isLoading) => {
+  const loader = document.getElementById("loader");
+  if (isLoading) {
+    loader.classList.remove("d-none");
+  } else {
+    loader.classList.add("d-none");
+  }
+};
 // loadPhone("");
